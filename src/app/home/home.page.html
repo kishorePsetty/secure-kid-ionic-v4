@@ -1,44 +1,227 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>
-      Home
+      secureKid <span class="header-title">{{dateDayForHeader + dayName}}</span>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-card class="welcome-card">
-      <img src="/assets/shapes.svg" alt="" />
-      <ion-card-header>
-        <ion-card-subtitle>Get Started</ion-card-subtitle>
-        <ion-card-title>Welcome to Ionic</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <p>Now that your app has been created, you'll want to start building out features and components. Check out some of the resources below for next steps.</p>
-      </ion-card-content>
-    </ion-card>
-    <ion-list lines="none">
-      <ion-list-header>
-        <ion-label>Resources</ion-label>
-      </ion-list-header>
-      <ion-item href="https://ionicframework.com/docs/">
-        <ion-icon slot="start" color="medium" name="book"></ion-icon>
-        <ion-label>Ionic Documentation</ion-label>
-      </ion-item>
-      <ion-item href="https://ionicframework.com/docs/building/scaffolding">
-        <ion-icon slot="start" color="medium" name="build"></ion-icon>
-        <ion-label>Scaffold Out Your App</ion-label>
-      </ion-item>
-      <ion-item href="https://ionicframework.com/docs/layout/structure">
-        <ion-icon slot="start" color="medium" name="grid"></ion-icon>
-        <ion-label>Change Your App Layout</ion-label>
-      </ion-item>
-      <ion-item href="https://ionicframework.com/docs/theming/basics">
-        <ion-icon slot="start" color="medium" name="color-fill"></ion-icon>
-        <ion-label>Theme Your App</ion-label>
+  <div class="school-info">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="2">
+          <div class="school-location-logo">
+            <img width="30px" height="30px" src="assets/school-location.png" />
+          </div>
+        </ion-col>
+        <ion-col size="10" style="color: white;">
+          <span>Mount Everest Children School</span><br />
+          <span>Dollars Colony, Garden Road</span>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="2">
+          <div class="school-phone-logo">
+            <img width="25px" height="25px" src="assets/school-phone.png" />
+          </div>
+        </ion-col>
+        <ion-col size="10" style="color: white;">
+          <span>Bangalore, Karnataka, India</span><br />
+          <span>080-4568-4567</span>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid>
+      <ion-row class="school-tabs">
+        <ion-col size="4" (click)="changeTab('list')" [class.school-tabs-active]="activeTab === 'list'">
+          LIST
+        </ion-col>
+        <ion-col size="4" (click)="changeTab('in')" [class.school-tabs-active]="activeTab === 'in'">
+          CHECK-IN
+        </ion-col>
+        <ion-col size="4" (click)="changeTab('out')" [class.school-tabs-active]="activeTab === 'out'">
+          CHECK-OUT
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div *ngIf="activeTab === 'out'">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <ion-searchbar></ion-searchbar>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <div>
+      <ion-list *ngFor="let student of studentDataForCheckInCheckOut" class="student-details-container">
+        <ion-item *ngIf="student.checkInTime">
+          <ion-grid>
+            <ion-row>
+              <ion-col size="3">
+                <div>
+                  <img class="student-photo" [src]="student.image">
+                </div>
+              </ion-col>
+              <ion-col size="5">
+                <ul class="student-details">
+                  <li class="student-detail-item">
+                    {{student.name}}, {{student.class}}
+                  </li>
+                  <li class="student-detail-item">
+                    <ion-icon name="call" (click)="callPhoneNumber(student.father.phone)"></ion-icon>
+                    {{student.father.name}}
+                  </li>
+                  <li class="student-detail-item">
+                    <ion-icon name="call" (click)="callPhoneNumber(student.mother.phone)"></ion-icon>
+                    {{student.mother.name}}
+                  </li>
+                </ul>
+              </ion-col>
+              <ion-col size="2">
+                <div class="checkin-action">
+                  <div>
+                    <img width="40px" height="40px" src="assets/post-checkin.png" class="student-pre-checkin" />
+                  </div>
+                  <div>
+                    {{student.checkInTime| date: "shortTime"}}
+                  </div>
+                </div>
+              </ion-col>
+              <ion-col size="2">
+                <div class="checkout-action" *ngIf="student.checkOutTime">
+                  <div class="student-post-checkin">
+                    <img width="40px" height="40px" src="assets/post-checkout.png" />
+                  </div>
+                  <div>
+                    {{student.checkOutTime | date: "shortTime"}}
+                  </div>
+                </div>
+                <div class="student-post-checkin" *ngIf="!student.checkOutTime" (click)="checkOutStudent(student)">
+                  <img width="40px" height="40px" src="assets/pre-checkout.png" />
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+
+  <div *ngIf="activeTab === 'list'">
+    <div *ngIf="!lodaingStudentData && !allStudentsList.length" class="no-student-error-message">
+      No Students Found
+    </div>
+    <div *ngIf="lodaingStudentData" class="no-student-error-message">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+    <div *ngIf="!lodaingStudentData && allStudentsList.length">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="10">
+            <ion-searchbar></ion-searchbar>
+          </ion-col>
+          <ion-col size="2">
+            <div (click)="addStudent()">
+              <img width="40px" height="40px" src="assets/add-student.png" class="student-add-icon" />
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-list *ngFor="let student of allStudentsList" class="student-details-container">
+        <ion-item>
+          <ion-grid>
+            <ion-row>
+              <ion-col size="3">
+                <div>
+                  <img class="student-photo" [src]="student.image">
+                </div>
+              </ion-col>
+              <ion-col size="5">
+                <ul class="student-details">
+                  <li class="student-detail-item">
+                    {{student.name}}, {{student.class}}
+                  </li>
+                  <li class="student-detail-item">
+                    <ion-icon name="call" (click)="callPhoneNumber(student.father.phone)"></ion-icon>
+                    {{student.father.name}}
+                  </li>
+                  <li class="student-detail-item">
+                    <ion-icon name="call" (click)="callPhoneNumber(student.mother.phone)"></ion-icon>
+                    {{student.mother.name}}
+                  </li>
+                </ul>
+              </ion-col>
+              <ion-col size="2">
+                <div class="kids-list-edit-logo" (click)="editStudentData(student)">
+                  <img width="35px" height="35px" src="assets/pencil-edit.png" />
+                </div>
+              </ion-col>
+              <ion-col size="2">
+                <div class="kids-list-delete-logo" (click)="deleteStudentAlert(student)">
+                  <img width="35px" height="35px" src="assets/remove.png" />
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ion-list>
+    </div>
+
+  </div>
+
+  <div *ngIf="activeTab === 'in'">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <ion-searchbar></ion-searchbar>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-list *ngFor="let student of studentDataForCheckInCheckOut" class="student-details-container">
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="3">
+              <div>
+                <img class="student-photo" [src]="student.image">
+              </div>
+            </ion-col>
+            <ion-col size="6">
+              <ul class="student-details">
+                <li class="student-detail-item">
+                  {{student.name}}, {{student.class}}
+                </li>
+                <li class="student-detail-item">
+                  <ion-icon name="call"></ion-icon> {{student.father.name}}
+                </li>
+                <li class="student-detail-item">
+                  <ion-icon name="call"></ion-icon> {{student.mother.name}}
+                </li>
+              </ul>
+            </ion-col>
+            <ion-col size="3">
+              <div class="checkin-action">
+                <div *ngIf="student.checkInTime">
+                  <img width="40px" height="40px" src="assets/post-checkin.png" class="student-pre-checkin" />
+                </div>
+                <div *ngIf="student.checkInTime">
+                  {{student.checkInTime | date: "shortTime"}}
+                </div>
+              </div>
+              <div *ngIf="!student.checkInTime" (click)="checkInStudent(student)">
+                <img width="40px" height="40px" src="assets/pre-checkin.png" class="student-pre-checkin" />
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </ion-item>
     </ion-list>
+  </div>
+
 </ion-content>

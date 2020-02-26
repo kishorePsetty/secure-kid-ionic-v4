@@ -1,0 +1,140 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Add Student</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <div class="student-photo-container">
+            <div (click)="captureStudentImage()" class="add-photo-avatar">
+              <img [src]="initialStudentImageSource" />
+            </div>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <ion-grid>
+            <ion-row>
+              <ion-col size="12">
+                <ion-item>
+                  <ion-label color="primary" position="stacked">Student Id</ion-label>
+                  <ion-input type="text" [(ngModel)]="studentDetails.schoolid"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="12">
+                <ion-item>
+                  <ion-label color="primary" position="stacked">Name</ion-label>
+                  <ion-input type="text" [(ngModel)]="studentDetails.name"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label color="primary" position="stacked">Class</ion-label>
+            <ion-input type="text" [(ngModel)]="studentDetails.class"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label color="primary" position="stacked">Father's Name</ion-label>
+            <ion-input type="text" [(ngModel)]="studentDetails.fathername"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label color="primary" position="stacked">Mobile Number</ion-label>
+            <ion-input type="text" [(ngModel)]="studentDetails.fathernumber"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label color="primary" position="stacked">Mother's Name</ion-label>
+            <ion-input type="text" [(ngModel)]="studentDetails.mothername"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label color="primary" position="stacked">Mobile Number</ion-label>
+            <ion-input type="text" [(ngModel)]="studentDetails.mothernumber"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <div class="student-photo-container">
+            <div (click)="captureGuestImage()" class="add-photo-avatar">
+              <img [src]="initialGuestImageSource" />
+            </div>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <ion-grid>
+            <ion-row>
+              <ion-col size="12">
+                <ion-item>
+                  <ion-label color="primary" position="stacked">Guest's Name</ion-label>
+                  <ion-input type="text" [(ngModel)]="studentDetails.guestname"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="12">
+                <ion-item>
+                  <ion-label color="primary" position="stacked">Mobile Number</ion-label>
+                  <ion-input type="text" [(ngModel)]="studentDetails.guestnumber"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label color="primary" position="stacked">Guest's Relationship</ion-label>
+            <ion-input type="text" [(ngModel)]="studentDetails.relationship"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" class="text-center">
+        <ion-button shape="round" expand="full" color="danger" (click)="cancelAddingStudent()">Cancel</ion-button>
+      </ion-col>
+      <ion-col size="6" class="text-center">
+        <ion-button shape="round" expand="full" color="primary" (click)="addStudent()">Add</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

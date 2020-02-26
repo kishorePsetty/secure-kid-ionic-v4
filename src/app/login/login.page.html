@@ -1,0 +1,46 @@
+<ion-content>
+
+  <ion-grid>
+
+    <ion-row class="login-heading">
+      <ion-col style="font-size: 30px;">Login to secureKID</ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-img height="60px" src="assets/sk-logo.png"></ion-img>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-input type="text" #phone [(ngModel)]="userPhone" placeholder="Phone Number"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="password" #password [(ngModel)]="userPassword" placeholder="Password"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="loginFormError">
+      <ion-col>
+        <div style="margin-left: 15px;">
+          <ion-label color="danger">{{loginFormErrorMessage}}</ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-button color="primary" expand="full" class="login-submit" (click)="loginUser()">Login</ion-button>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+  <ion-row class="login-extras-container">
+    <ion-col size="12">
+      <p class="login-new-action" (click)="loginExtraAction()">First time login / Forgot / Change Password</p>
+    </ion-col>
+  </ion-row>
+
+</ion-content>

@@ -1,5 +1,7 @@
 {
   "name": "kidz-safety",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
